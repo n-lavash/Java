@@ -19,25 +19,36 @@ public class Calculator {
         int b = scanner.nextInt();
 
         scanner.nextLine();
-        System.out.println("Choose an operation:\n(+, -, *, /)");
-        String operation = scanner.nextLine();
+        while (true) {
+            System.out.println("\nChoose an operation:\n+, -, *, /, 1 - change numbers, 0 - exit");
+            String operation = scanner.nextLine();
 
-        switch (operation) {
-            case "+":
-                System.out.println(a + " + " + b + " = " + addition(a, b));
-                break;
-            case "-":
-                System.out.println(a + " - " + b + " = " + subtraction(a, b));
-                break;
-            case "*":
-                System.out.println(a + " * " + b + " = " + multiplication(a, b));
-                break;
-            case "/":
-                System.out.println(a + " / " + b + " = " + division(a, b));
-                break;
-            default:
-                System.out.println("Invalid value");
-                break;
+            switch (operation) {
+                case "+":
+                    System.out.println(a + " + " + b + " = " + addition(a, b));
+                    break;
+                case "-":
+                    System.out.println(a + " - " + b + " = " + subtraction(a, b));
+                    break;
+                case "*":
+                    System.out.println(a + " * " + b + " = " + multiplication(a, b));
+                    break;
+                case "/":
+                    System.out.println(a + " / " + b + " = " + division(a, b));
+                    break;
+                case "1":
+                    System.out.println("Enter number A:");
+                    a = scanner.nextInt();
+
+                    System.out.println("Enter number B:");
+                    b = scanner.nextInt();
+                    break;
+                case "0":
+                    return;
+                default:
+                    System.out.println("Invalid value");
+                    break;
+            }
         }
     }
 
@@ -54,6 +65,11 @@ public class Calculator {
     }
 
     public int division(int a, int b) {
-        return a / b;
+        try {
+            return a / b;
+        } catch (Exception e) {
+            System.out.println("Division by 0");
+            return Integer.MAX_VALUE;
+        }
     }
 }
