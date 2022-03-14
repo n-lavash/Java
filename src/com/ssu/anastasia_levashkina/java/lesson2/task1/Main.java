@@ -1,6 +1,6 @@
 package com.ssu.anastasia_levashkina.java.lesson2.task1;
-
 import com.ssu.anastasia_levashkina.java.lesson2.task1.Fridge.Console;
+
 
 /**
  * Левашкина Анастасия.
@@ -11,6 +11,7 @@ import com.ssu.anastasia_levashkina.java.lesson2.task1.Fridge.Console;
 
 public class Main {
     public static void main(String[] args) {
-        Console.openFridge();
+        Console console = new Console();
+        console.openFridge();
     }
 }
