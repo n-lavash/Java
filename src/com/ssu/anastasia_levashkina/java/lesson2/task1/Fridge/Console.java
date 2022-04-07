@@ -2,6 +2,7 @@ package com.ssu.anastasia_levashkina.java.lesson2.task1.Fridge;
 
 import com.ssu.anastasia_levashkina.java.lesson2.task1.Dishes.Dishes;
 import com.ssu.anastasia_levashkina.java.lesson2.task1.Foods.*;
+import com.ssu.anastasia_levashkina.java.lesson3.task1.unchecked.ExistingFoodException;
 
 import java.util.Arrays;
 import java.util.Comparator;
@@ -10,12 +11,12 @@ import java.util.Scanner;
 
 public class Console {
 
-    private Foods[] foodsOnDish = new Foods[100];
-    private Dishes[] allDishes = new Dishes[100];
-    int j = 0;
-    int k = 0;
+    private static Foods[] foodsOnDish = new Foods[100];
+    private static Dishes[] allDishes = new Dishes[100];
+    static int j = 0;
+    static int k = 0;
 
-    public void openFridge() {
+    public static void openFridge() {
         Scanner scanner = new Scanner(System.in);
         String type;
         String title;
@@ -53,13 +54,8 @@ public class Console {
                         type = scanner.nextLine();
                     }
                     System.out.println("Enter number of foods:");
-                    try {
-                        String numbers = scanner.nextLine();
-                        int number = Integer.parseInt(numbers);
-                        addFoods(type, number);
-                    } catch (Exception e) {
-                        System.out.println("Invalid value.");
-                    }
+                    int number = scanner.nextInt();
+                    addFoods(type, number);
                     break;
                 case "2":
                     System.out.println("Enter the title of the dish:");
@@ -122,7 +118,7 @@ public class Console {
         }
     }
 
-    public void addFoods(String type, int number) {
+    public static void addFoods(String type, int number) {
         Scanner scanner = new Scanner(System.in);
 
         String title;
@@ -135,14 +131,21 @@ public class Console {
                     System.out.println("Enter name of the food:");
                     title = scanner.nextLine();
 
+                    for (int j = k; j < k+number; j++) {
+                        if (Objects.nonNull(foodsOnDish[0]))
+                            if (title.equalsIgnoreCase(foodsOnDish[j].getTitle())) {
+                                throw new ExistingFoodException("This product is already in the fridge");
+                            }
+                    }
+
                     System.out.println("Enter weight in grams:");
                     weight = scanner.nextInt();
                     scanner.nextLine();
 
                     System.out.println("Fruit sugary? (yes/no)");
                     String sugar = scanner.nextLine();
-
                     foodsOnDish[i] = new Fruits(title, weight, sugar.equalsIgnoreCase("yes"));
+
                 }
                 break;
             case "2":
@@ -150,6 +153,14 @@ public class Console {
                 for (int i = k; i < k+number; i++) {
                     System.out.println("Enter name of the food:");
                     title = scanner.nextLine();
+                    scanner.nextLine();
+
+                    for (int j = k; j < k+number; j++) {
+                        if (Objects.nonNull(foodsOnDish[0]))
+                            if (title.equalsIgnoreCase(foodsOnDish[j].getTitle())) {
+                                throw new ExistingFoodException("This product is already in the fridge");
+                            }
+                    }
 
                     System.out.println("Enter weight in grams:");
                     weight = scanner.nextInt();
@@ -164,6 +175,13 @@ public class Console {
                     System.out.println("Enter name of the food:");
                     title = scanner.nextLine();
 
+                    for (int j = k; j < k+number; j++) {
+                        if (Objects.nonNull(foodsOnDish[0]))
+                            if (title.equalsIgnoreCase(foodsOnDish[j].getTitle())) {
+                                throw new ExistingFoodException("This product is already in the fridge");
+                            }
+                    }
+
                     System.out.println("Enter weight in grams:");
                     weight = scanner.nextInt();
                     scanner.nextLine();
@@ -176,6 +194,13 @@ public class Console {
                 for (int i = k; i < k+number; i++) {
                     System.out.println("Enter name of the food:");
                     title = scanner.nextLine();
+
+                    for (int j = k; j < k+number; j++) {
+                        if (Objects.nonNull(foodsOnDish[0]))
+                            if (title.equalsIgnoreCase(foodsOnDish[j].getTitle())) {
+                                throw new ExistingFoodException("This product is already in the fridge");
+                            }
+                    }
 
                     System.out.println("Enter weight in grams:");
                     weight = scanner.nextInt();
@@ -192,7 +217,7 @@ public class Console {
         k += number;
     }
 
-    public void addDish(String titleDish, String description) {
+    public static void addDish(String titleDish, String description) {
         Scanner scanner = new Scanner(System.in);
         System.out.println("How many foods are in a dish?");
         int number = scanner.nextInt();
@@ -220,7 +245,7 @@ public class Console {
         j++;
     }
 
-    public Foods getFood(String type, String title) {
+    public static Foods getFood(String type, String title) {
         try {
             for (Foods foods :
                     foodsOnDish) {
@@ -236,7 +261,7 @@ public class Console {
         return null;
     }
 
-    public Dishes getDish(String title) {
+    public static Dishes getDish(String title) {
         try {
             for (Dishes dish :
                     allDishes) {
@@ -250,7 +275,7 @@ public class Console {
         return null;
     }
 
-    public Foods[] findFood() {
+    public static Foods[] findFood() {
         if (Objects.isNull(foodsOnDish))
             return null;
 
@@ -464,7 +489,7 @@ public class Console {
         return findFoods;
     }
 
-    public void sort(String option) {
+    public static void sort(String option) {
 
         switch (option) {
             case "1":
@@ -536,7 +561,7 @@ public class Console {
         }
     }
 
-    public void showAll(boolean showDishes) {
+    public static void showAll(boolean showDishes) {
         boolean check = false;
         for (Foods foods :
                 foodsOnDish) {

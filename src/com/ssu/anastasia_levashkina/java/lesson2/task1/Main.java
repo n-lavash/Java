@@ -11,7 +11,6 @@ import com.ssu.anastasia_levashkina.java.lesson2.task1.Fridge.Console;
 
 public class Main {
     public static void main(String[] args) {
-        Console console = new Console();
-        console.openFridge();
+        Console.openFridge();
     }
 }
