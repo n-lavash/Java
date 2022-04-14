@@ -2,8 +2,13 @@ package com.ssu.anastasia_levashkina.java.lesson2.task1.Fridge;
 
 import com.ssu.anastasia_levashkina.java.lesson2.task1.Dishes.Dishes;
 import com.ssu.anastasia_levashkina.java.lesson2.task1.Foods.*;
+import com.ssu.anastasia_levashkina.java.lesson3.task1.checked.InvalidFilenameException;
 import com.ssu.anastasia_levashkina.java.lesson3.task1.unchecked.ExistingFoodException;
+import com.ssu.anastasia_levashkina.java.lesson3.task1.unchecked.FoodWeightException;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Objects;
@@ -32,6 +37,7 @@ public class Console {
                     "\n\t5 - find food" +
                     "\n\t6 - sort" +
                     "\n\t7 - show all" +
+                    "\n\t8 - open file" +
                     "\n\t0 - exit");
             String action = scanner.nextLine();
 
@@ -55,7 +61,12 @@ public class Console {
                     }
                     System.out.println("Enter number of foods:");
                     int number = scanner.nextInt();
-                    addFoods(type, number);
+                    scanner.nextLine();
+                    try {
+                        addFoods(type, number);
+                    } catch (ExistingFoodException | FoodWeightException e) {
+                        System.out.println(e.getMessage());
+                    }
                     break;
                 case "2":
                     System.out.println("Enter the title of the dish:");
@@ -110,6 +121,13 @@ public class Console {
                     if (dishes.equalsIgnoreCase("yes")) showAll(true);
                     else showAll(false);
                     break;
+                case "8":
+                    try {
+                        fileWork();
+                    } catch (InvalidFilenameException e) {
+                        System.out.println(e.getMessage());
+                    }
+                    break;
                 case "0":
                     return;
                 default:
@@ -118,7 +136,20 @@ public class Console {
         }
     }
 
-    public static void addFoods(String type, int number) {
+    private static void fileWork() throws InvalidFilenameException{
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Enter file name");
+        String fileName = scanner.nextLine();
+        File file = new File("C://" + fileName);
+        if (!file.exists()) {
+            throw new InvalidFilenameException("Неправильно название файла");
+        }
+
+        System.out.println("Название файла: " + file.getName());
+        System.out.println("Путь до файла: " + file.getPath());
+    }
+
+    public static void addFoods(String type, int number) throws ExistingFoodException, FoodWeightException {
         Scanner scanner = new Scanner(System.in);
 
         String title;
@@ -130,23 +161,23 @@ public class Console {
                 for (int i = k; i < k+number; i++) {
                     System.out.println("Enter name of the food:");
                     title = scanner.nextLine();
-
-                    for (int j = k; j < k+number; j++) {
-                        if (Objects.nonNull(foodsOnDish[0]))
-                            if (title.equalsIgnoreCase(foodsOnDish[j].getTitle())) {
-                                throw new ExistingFoodException("This product is already in the fridge");
-                            }
-                    }
+                    if (Objects.nonNull(foodsOnDish[0]))
+                        if (Objects.nonNull(getFood("1", title))) {
+                            throw new ExistingFoodException("Такая еда уже есть в холодильнике");
+                        }
 
                     System.out.println("Enter weight in grams:");
                     weight = scanner.nextInt();
+                    if (weight <= 0) {
+                        throw new FoodWeightException("Неверно введен вес еды");
+                    }
                     scanner.nextLine();
 
                     System.out.println("Fruit sugary? (yes/no)");
                     String sugar = scanner.nextLine();
                     foodsOnDish[i] = new Fruits(title, weight, sugar.equalsIgnoreCase("yes"));
-
                 }
+
                 break;
             case "2":
 
@@ -155,15 +186,16 @@ public class Console {
                     title = scanner.nextLine();
                     scanner.nextLine();
 
-                    for (int j = k; j < k+number; j++) {
-                        if (Objects.nonNull(foodsOnDish[0]))
-                            if (title.equalsIgnoreCase(foodsOnDish[j].getTitle())) {
-                                throw new ExistingFoodException("This product is already in the fridge");
-                            }
-                    }
+                    if (Objects.nonNull(foodsOnDish[0]))
+                        if (Objects.nonNull(getFood("2", title))) {
+                            throw new ExistingFoodException("Такая еда уже есть в холодильнике");
+                        }
 
                     System.out.println("Enter weight in grams:");
                     weight = scanner.nextInt();
+                    if (weight <= 0) {
+                        throw new FoodWeightException("Неверно введен вес еды");
+                    }
                     scanner.nextLine();
 
                     foodsOnDish[i] = new Meat(title, weight);
@@ -175,15 +207,16 @@ public class Console {
                     System.out.println("Enter name of the food:");
                     title = scanner.nextLine();
 
-                    for (int j = k; j < k+number; j++) {
-                        if (Objects.nonNull(foodsOnDish[0]))
-                            if (title.equalsIgnoreCase(foodsOnDish[j].getTitle())) {
-                                throw new ExistingFoodException("This product is already in the fridge");
-                            }
-                    }
+                    if (Objects.nonNull(foodsOnDish[0]))
+                        if (Objects.nonNull(getFood("3", title))) {
+                            throw new ExistingFoodException("Такая еда уже есть в холодильнике");
+                        }
 
                     System.out.println("Enter weight in grams:");
                     weight = scanner.nextInt();
+                    if (weight <= 0) {
+                        throw new FoodWeightException("Неверно введен вес еды");
+                    }
                     scanner.nextLine();
 
                     foodsOnDish[i] = new Vegetables(title, weight);
@@ -195,15 +228,16 @@ public class Console {
                     System.out.println("Enter name of the food:");
                     title = scanner.nextLine();
 
-                    for (int j = k; j < k+number; j++) {
-                        if (Objects.nonNull(foodsOnDish[0]))
-                            if (title.equalsIgnoreCase(foodsOnDish[j].getTitle())) {
-                                throw new ExistingFoodException("This product is already in the fridge");
-                            }
-                    }
+                    if (Objects.nonNull(foodsOnDish[0]))
+                        if (Objects.nonNull(getFood("4", title))) {
+                            throw new ExistingFoodException("Такая еда уже есть в холодильнике");
+                        }
 
                     System.out.println("Enter weight in grams:");
                     weight = scanner.nextInt();
+                    if (weight <= 0) {
+                        throw new FoodWeightException("Неверно введен вес еды");
+                    }
                     scanner.nextLine();
 
                     System.out.println("Food sour? (yes/no)");
