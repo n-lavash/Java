@@ -1,7 +1,6 @@
 package lesson4.task1;
 
 import java.lang.reflect.Array;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
@@ -19,7 +18,7 @@ public class DynamicArray<T> implements Iterable<T>{
         array = (T[]) Array.newInstance(MyClass, DefaultCapacity);
     }
 
-    public void createArray() {
+    public void copyArray() {
         int capacity = array.length * 2;
         T[] copyArray = Arrays.copyOf(array, capacity);
         try {
@@ -38,7 +37,7 @@ public class DynamicArray<T> implements Iterable<T>{
 
     public void add(T elem) {
         if(number + 1 == array.length){
-           createArray();
+           copyArray();
         }
 
         array[number] = elem;
