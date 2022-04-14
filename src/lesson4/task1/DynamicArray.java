@@ -10,8 +10,8 @@ public class DynamicArray<T> implements Iterable<T>{
     T[] array;
     int number;
 
-    public DynamicArray(Class<T> MyClass, int MyCapacity) {
-        array = (T[]) Array.newInstance(MyClass, MyCapacity);
+    public DynamicArray(Class<T> MyClass, int capacity) {
+        array = (T[]) Array.newInstance(MyClass, capacity);
     }
 
     public DynamicArray(Class<T> MyClass) {

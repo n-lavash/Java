@@ -26,7 +26,7 @@ public class Main {
         System.out.println("Получение элемента по индексу");
         System.out.println(array.get(4));
 
-        System.out.println("Проверка работы foreach");
+        System.out.println("\nПроверка работы foreach");
         for (Integer elem:
              array) {
             System.out.println(elem);
